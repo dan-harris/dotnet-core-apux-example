@@ -11,14 +11,14 @@ namespace DotnetCoreApuxExample.Api.DataAccess
         /// Add a Product to the Cart
         /// </summary>
         /// <param name="product"></param>
-        void AddProduct(Product product);
+        void AddProduct(int productId);
 
         /// <summary>
         /// Remove a Product from the cart
         /// </summary>
         /// <param name="product"></param>
         /// <returns></returns>
-        bool RemoveProduct(Product product);
+        bool RemoveProduct(int productId);
 
         /// <summary>
         /// List all Products in the cart
