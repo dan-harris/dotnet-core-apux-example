@@ -8,7 +8,7 @@ namespace DotnetCoreApuxExample.Api.DataAccess
     {
         private readonly List<Product> _productList;
 
-        ProductDataAccess()
+        public ProductDataAccess()
         {
             _productList = new List<Product> {
                 new Product { Id = 1, Name = "Shower Power", Price = 10 },

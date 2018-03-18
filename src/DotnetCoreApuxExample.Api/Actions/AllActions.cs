@@ -46,6 +46,13 @@ namespace DotnetCoreApuxExample.Api.Actions
                     }
                     break;
 
+                // Product actions
+                case Constants.ActionNamespace.PRODUCT:
+                    {
+                        actionResult = _productActions.executeAction(actionRequest);
+                    }
+                    break;
+
                 // Default Action (return App Error Unknown Action)
                 default:
                     {
