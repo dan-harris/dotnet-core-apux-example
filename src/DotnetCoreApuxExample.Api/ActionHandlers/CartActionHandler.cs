@@ -52,5 +52,16 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             };
         }
 
+        public ApuxActionResult GetProductTotalPrice()
+        {
+
+            var totalPrice = _cartDataAccess.GetProductTotalPrice();
+
+            return new ApuxActionResult
+            {
+                Data = new JValue(totalPrice)
+            };
+        }
+
     }
 }

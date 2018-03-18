@@ -10,5 +10,6 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
         ApuxActionResult AddProductAction(JToken data);
         ApuxActionResult RemoveProductAction(JToken data);
         ApuxActionResult ListProductsAction();
+        ApuxActionResult GetProductTotalPrice();
     }
 }

@@ -13,6 +13,7 @@ namespace DotnetCoreApuxExample.Api.Actions
         public const string LIST_PRODUCTS = "LIST_PRODUCTS";
         public const string ADD_PRODUCT = "ADD_PRODUCT";
         public const string REMOVE_PRODUCT = "REMOVE_PRODUCT";
+        public const string GET_TOTAL_PRICE = "GET_TOTAL_PRICE";
     }
 
     /// <summary>
@@ -53,9 +54,15 @@ namespace DotnetCoreApuxExample.Api.Actions
                     break;
 
                 case CartActionsList.REMOVE_PRODUCT:
-                default:
                     {
                         result = _cartActionHandler.RemoveProductAction(actionRequest.Data);
+                    }
+                    break;
+
+                case CartActionsList.GET_TOTAL_PRICE:
+                default:
+                    {
+                        result = _cartActionHandler.GetProductTotalPrice();
                     }
                     break;
             }
