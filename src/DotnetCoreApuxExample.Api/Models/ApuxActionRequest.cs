@@ -4,12 +4,13 @@ using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.Models
 {
-    public class ApuxActionRequest
+    public class ApuxActionRequest : IApuxAction
     {
-        [JsonProperty(PropertyName = "action")]
-        public string Action { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
 
-        [JsonProperty(PropertyName = "data")]
-        public JToken Data { get; set; }
+        [JsonProperty(PropertyName = "payload")]
+        public JToken Payload { get; set; }
     }
+
 }

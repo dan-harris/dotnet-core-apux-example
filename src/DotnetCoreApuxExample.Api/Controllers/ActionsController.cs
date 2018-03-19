@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using DotnetCoreApuxExample.Api.Models;
 using DotnetCoreApuxExample.Api.Actions;
 using Newtonsoft.Json.Linq;
+using DotnetCoreApuxExample.Api.ActionDispatchers;
 
 namespace DotnetCoreApuxExample.Api.Controllers
 {
@@ -21,7 +22,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
 
         // POST endpoint for all actions
         [HttpPost("v1")]
-        public ApuxActionResult ExecuteAction([FromBody] ApuxAction<JToken> actionRequest)
+        public IApuxActionResult ExecuteAction([FromBody] ApuxActionRequest actionRequest)
         {
 
             if (actionRequest == null)
@@ -29,7 +30,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
                 throw new ArgumentNullException(nameof(actionRequest));
             }
 
-            return _allActions.executeAction(actionRequest);
+            return _allActions.Dispatch(new ApuxAction<JToken>(actionRequest.Type, actionRequest.Payload));
         }
 
     }

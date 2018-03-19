@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DotnetCoreApuxExample.Api.ActionHandlers;
 using DotnetCoreApuxExample.Api.Models;
+using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.Actions
 {
@@ -8,60 +9,20 @@ namespace DotnetCoreApuxExample.Api.Actions
     /// <summary>
     /// List of Actions for this Apux Action namespace
     /// </summary>
-    public class ProductActionsList
+    public class ProductActions
     {
         public const string GET_ALL = "GET_ALL";
         public const string GET_BY_ID = "GET_BY_ID";
     }
 
-    /// <summary>
-    /// Implements Actions for this Apux Action namespace, providing appropriate handler for an action
-    /// </summary>
-    public class ProductActions : IApuxActionDispatcher
+    public class GetAllAction : ApuxAction<object>
     {
-
-        private readonly IAppErrorActionHandler _appErrorActionHandler;
-        private readonly IProductActionHandler _productActionHandler;
-
-        public ProductActions(
-            IAppErrorActionHandler appErrorActionHandler,
-            IProductActionHandler productActionHandler
-        )
-        {
-            _appErrorActionHandler = appErrorActionHandler;
-            _productActionHandler = productActionHandler;
-        }
-
-        public ApuxActionResult executeAction(ApuxActionRequest actionRequest)
-        {
-
-            var result = _appErrorActionHandler.UnknownAction();
-
-            switch (actionRequest.Action)
-            {
-                case ProductActionsList.GET_ALL:
-                    {
-                        result = _productActionHandler.GetAll();
-                    }
-                    break;
-
-                case ProductActionsList.GET_BY_ID:
-                    {
-                        result = _productActionHandler.GetById(actionRequest.Data);
-                    }
-                    break;
-
-                default:
-                    {
-                        result = _appErrorActionHandler.UnknownAction();
-                    }
-                    break;
-            }
-
-            return result;
-
-
-        }
-
+        public GetAllAction(JToken payload) : base(ProductActions.GET_ALL, payload) { }
     }
+
+    public class GetByIdAction : ApuxAction<int>
+    {
+        public GetByIdAction(JToken payload) : base(ProductActions.GET_BY_ID, payload) { }
+    }
+
 }

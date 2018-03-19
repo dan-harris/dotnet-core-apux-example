@@ -1,67 +1,60 @@
 using System;
 using System.Collections.Generic;
 using DotnetCoreApuxExample.Api.Models;
+using Newtonsoft.Json.Linq;
 
-namespace DotnetCoreApuxExample.Api.Actions
+namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
-    public class AllActions : IApuxActionDispatcher
+    public class RootActionDispatcher : IApuxActionDispatcher
     {
 
 
         private readonly IApuxActionDispatcher _appErrorActions;
-        private readonly IApuxActionDispatcher _cartActions;
+        private readonly IApuxActionDispatcher _cartActionDispatcher;
         private readonly IApuxActionDispatcher _productActions;
 
 
-        public AllActions(Func<string, IApuxActionDispatcher> _actions)
+        public RootActionDispatcher(Func<string, IApuxActionDispatcher> _actions)
         {
             _appErrorActions = _actions(Constants.ActionNamespace.APP);
-            _cartActions = _actions(Constants.ActionNamespace.CART);
+            _cartActionDispatcher = _actions(Constants.ActionNamespace.CART);
             _productActions = _actions(Constants.ActionNamespace.PRODUCT);
         }
 
-        public ApuxActionResult executeAction(ApuxActionRequest actionRequest)
+        public IApuxActionResult Dispatch(ApuxAction<JToken> actionRequest)
         {
 
-            ApuxActionResult actionResult;
-
             // Get action namespace
-            var actionNamespace = actionRequest.Action.Split(Constants.ACTION_NAMESPACE_SEPERATOR)[0];
+            var actionNamespace = actionRequest.Type.Split(Constants.ACTION_NAMESPACE_SEPERATOR)[0];
             // Remove action namespace from action in request (means actions dont have to worry about their own namespace)
-            actionRequest.Action = actionRequest.Action.Replace($"{actionNamespace}{Constants.ACTION_NAMESPACE_SEPERATOR}", "");
+            actionRequest.Type = actionRequest.Type.Replace($"{actionNamespace}{Constants.ACTION_NAMESPACE_SEPERATOR}", "");
 
             switch (actionNamespace)
             {
                 // App error actions
                 case Constants.ActionNamespace.APP:
                     {
-                        actionResult = _appErrorActions.executeAction(actionRequest);
+                        return _appErrorActions.Dispatch(actionRequest);
                     }
-                    break;
 
                 // Cart actions
                 case Constants.ActionNamespace.CART:
                     {
-                        actionResult = _cartActions.executeAction(actionRequest);
+                        return _cartActionDispatcher.Dispatch(actionRequest);
                     }
-                    break;
 
                 // Product actions
                 case Constants.ActionNamespace.PRODUCT:
                     {
-                        actionResult = _productActions.executeAction(actionRequest);
+                        return _productActions.Dispatch(actionRequest);
                     }
-                    break;
 
                 // Default Action (return App Error Unknown Action)
                 default:
                     {
-                        actionResult = _appErrorActions.executeAction(actionRequest);
+                        return _appErrorActions.Dispatch(actionRequest);
                     }
-                    break;
             }
-
-            return actionResult;
 
         }
 

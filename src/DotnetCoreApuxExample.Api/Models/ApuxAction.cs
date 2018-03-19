@@ -4,17 +4,43 @@ using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.Models
 {
-    public class ApuxAction<T>
+    public class ApuxAction<T> : IApuxAction
     {
-        [JsonProperty(PropertyName = "action")]
-        public string Action { get; set; }
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
 
-        [JsonProperty(PropertyName = "data")]
-        public T Data { get; set; }
+        [JsonProperty(PropertyName = "payload")]
+        public T Payload { get; set; }
+
 
         public ApuxAction(string action)
         {
-            Action = action;
+            Type = action;
+            Payload = default(T);
         }
+
+        public ApuxAction(string action, JToken payload)
+        {
+            Type = action;
+            Payload = deserializePayload(payload);
+        }
+
+        public ApuxAction(ApuxAction<JToken> actionRequest)
+        {
+            Type = actionRequest.Type;
+            Payload = deserializePayload(actionRequest.Payload);
+        }
+
+        private T deserializePayload(JToken payload)
+        {
+            if (payload != null) return payload.ToObject<T>();
+            else return default(T);
+        }
+    }
+
+    public class IApuxAction
+    {
+        string Type { get; set; }
+        JToken Payload { get; set; }
     }
 }
