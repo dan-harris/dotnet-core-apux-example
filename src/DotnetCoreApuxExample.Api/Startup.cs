@@ -34,6 +34,7 @@ namespace DotnetCoreApuxExample.Api
             services.AddSingleton<AllActions>();
             services.AddSingleton<AppErrorActions>();
             services.AddSingleton<CartActions>();
+            services.AddSingleton<ProductActions>();
             services.AddSingleton(factory =>
             {
                 Func<string, IApuxAction> accessor = key =>
@@ -46,8 +47,8 @@ namespace DotnetCoreApuxExample.Api
                             return factory.GetService<AppErrorActions>();
                         case Constants.ActionNamespace.CART:
                             return factory.GetService<CartActions>();
-                        // case Constants.ActionNamespace.PRODUCT
-                        //     return factory.GetService<>();
+                        case Constants.ActionNamespace.PRODUCT:
+                            return factory.GetService<ProductActions>();
                         default:
                             return factory.GetService<AppErrorActions>(); // will return an 'unknown action' response by default if no actions match
                     }
@@ -57,6 +58,7 @@ namespace DotnetCoreApuxExample.Api
             // Add Action handlers
             services.AddSingleton<IAppErrorActionHandler, AppErrorActionHandler>();
             services.AddSingleton<ICartActionHandler, CartActionHandler>();
+            services.AddSingleton<IProductActionHandler, ProductActionHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

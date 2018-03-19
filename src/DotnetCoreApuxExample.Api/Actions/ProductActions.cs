@@ -8,32 +8,28 @@ namespace DotnetCoreApuxExample.Api.Actions
     /// <summary>
     /// List of Actions for this Apux Action namespace
     /// </summary>
-    public class CartActionsList
+    public class ProductActionsList
     {
-
-        public const string LIST_PRODUCTS = "LIST_PRODUCTS";
-        public const string ADD_PRODUCT = "ADD_PRODUCT";
-        public const string REMOVE_PRODUCT = "REMOVE_PRODUCT";
-        public const string GET_TOTAL_PRICE = "GET_TOTAL_PRICE";
-
+        public const string GET_ALL = "GET_ALL";
+        public const string GET_BY_ID = "GET_BY_ID";
     }
 
     /// <summary>
     /// Implements Actions for this Apux Action namespace, providing appropriate handler for an action
     /// </summary>
-    public class CartActions : IApuxAction
+    public class ProductActions : IApuxAction
     {
 
         private readonly IAppErrorActionHandler _appErrorActionHandler;
-        private readonly ICartActionHandler _cartActionHandler;
+        private readonly IProductActionHandler _productActionHandler;
 
-        public CartActions(
+        public ProductActions(
             IAppErrorActionHandler appErrorActionHandler,
-            ICartActionHandler cartActionHandler
-            )
+            IProductActionHandler productActionHandler
+        )
         {
             _appErrorActionHandler = appErrorActionHandler;
-            _cartActionHandler = cartActionHandler;
+            _productActionHandler = productActionHandler;
         }
 
         public ApuxActionResult executeAction(ApuxActionRequest actionRequest)
@@ -43,27 +39,15 @@ namespace DotnetCoreApuxExample.Api.Actions
 
             switch (actionRequest.Action)
             {
-                case CartActionsList.LIST_PRODUCTS:
+                case ProductActionsList.GET_ALL:
                     {
-                        result = _cartActionHandler.ListProductsAction();
+                        result = _productActionHandler.GetAll();
                     }
                     break;
 
-                case CartActionsList.ADD_PRODUCT:
+                case ProductActionsList.GET_BY_ID:
                     {
-                        result = _cartActionHandler.AddProductAction(actionRequest.Data);
-                    }
-                    break;
-
-                case CartActionsList.REMOVE_PRODUCT:
-                    {
-                        result = _cartActionHandler.RemoveProductAction(actionRequest.Data);
-                    }
-                    break;
-
-                case CartActionsList.GET_TOTAL_PRICE:
-                    {
-                        result = _cartActionHandler.GetProductTotalPrice();
+                        result = _productActionHandler.GetById(actionRequest.Data);
                     }
                     break;
 

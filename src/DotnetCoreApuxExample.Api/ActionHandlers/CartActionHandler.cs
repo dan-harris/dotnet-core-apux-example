@@ -19,25 +19,25 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
 
         public ApuxActionResult AddProductAction(JToken data)
         {
-            var product = data.ToObject<Product>();
+            var productId = data.Value<int>();
 
-            _cartDataAccess.AddProduct(product);
+            _cartDataAccess.AddProduct(productId);
 
             return new ApuxActionResult
             {
-                Data = JObject.FromObject(product)
+                Data = new JValue(true)
             };
         }
 
         public ApuxActionResult RemoveProductAction(JToken data)
         {
-            var product = data.ToObject<Product>();
+            var productId = data.Value<int>();
 
-            _cartDataAccess.RemoveProduct(product);
+            var result = _cartDataAccess.RemoveProduct(productId);
 
             return new ApuxActionResult
             {
-                Data = { }
+                Data = new JValue(result)
             };
         }
 
@@ -49,6 +49,17 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             return new ApuxActionResult
             {
                 Data = JArray.FromObject(productList)
+            };
+        }
+
+        public ApuxActionResult GetProductTotalPrice()
+        {
+
+            var totalPrice = _cartDataAccess.GetProductTotalPrice();
+
+            return new ApuxActionResult
+            {
+                Data = new JValue(totalPrice)
             };
         }
 
