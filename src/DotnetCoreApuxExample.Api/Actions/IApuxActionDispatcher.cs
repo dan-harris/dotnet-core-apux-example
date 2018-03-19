@@ -4,7 +4,7 @@ using DotnetCoreApuxExample.Api.Models;
 
 namespace DotnetCoreApuxExample.Api.Actions
 {
-    public interface IApuxAction
+    public interface IApuxActionDispatcher
     {
         ApuxActionResult executeAction(ApuxActionRequest actionRequest);
 

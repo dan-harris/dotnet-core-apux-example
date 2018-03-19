@@ -37,7 +37,7 @@ namespace DotnetCoreApuxExample.Api
             services.AddSingleton<ProductActions>();
             services.AddSingleton(factory =>
             {
-                Func<string, IApuxAction> accessor = key =>
+                Func<string, IApuxActionDispatcher> accessor = key =>
                 {
                     switch (key)
                     {

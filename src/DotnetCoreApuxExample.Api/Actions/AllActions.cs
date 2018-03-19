@@ -4,16 +4,16 @@ using DotnetCoreApuxExample.Api.Models;
 
 namespace DotnetCoreApuxExample.Api.Actions
 {
-    public class AllActions : IApuxAction
+    public class AllActions : IApuxActionDispatcher
     {
 
 
-        private readonly IApuxAction _appErrorActions;
-        private readonly IApuxAction _cartActions;
-        private readonly IApuxAction _productActions;
+        private readonly IApuxActionDispatcher _appErrorActions;
+        private readonly IApuxActionDispatcher _cartActions;
+        private readonly IApuxActionDispatcher _productActions;
 
 
-        public AllActions(Func<string, IApuxAction> _actions)
+        public AllActions(Func<string, IApuxActionDispatcher> _actions)
         {
             _appErrorActions = _actions(Constants.ActionNamespace.APP);
             _cartActions = _actions(Constants.ActionNamespace.CART);

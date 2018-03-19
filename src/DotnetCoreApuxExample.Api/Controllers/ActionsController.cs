@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using DotnetCoreApuxExample.Api.Models;
 using DotnetCoreApuxExample.Api.Actions;
+using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.Controllers
 {
@@ -9,10 +10,10 @@ namespace DotnetCoreApuxExample.Api.Controllers
     public class ActionsController : Controller
     {
 
-        private readonly Func<string, IApuxAction> _actions;
-        private readonly IApuxAction _allActions;
+        private readonly Func<string, IApuxActionDispatcher> _actions;
+        private readonly IApuxActionDispatcher _allActions;
 
-        public ActionsController(Func<string, IApuxAction> actions)
+        public ActionsController(Func<string, IApuxActionDispatcher> actions)
         {
             _actions = actions;
             _allActions = _actions(Constants.ActionNamespace.ALL);
@@ -20,7 +21,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
 
         // POST endpoint for all actions
         [HttpPost("v1")]
-        public ApuxActionResult ExecuteAction([FromBody] ApuxActionRequest actionRequest)
+        public ApuxActionResult ExecuteAction([FromBody] ApuxAction<JToken> actionRequest)
         {
 
             if (actionRequest == null)

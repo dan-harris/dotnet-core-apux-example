@@ -17,7 +17,7 @@ namespace DotnetCoreApuxExample.Api.Actions
     /// <summary>
     /// Implements Actions for this Apux Action namespace, providing appropriate handler for an action
     /// </summary>
-    public class ProductActions : IApuxAction
+    public class ProductActions : IApuxActionDispatcher
     {
 
         private readonly IAppErrorActionHandler _appErrorActionHandler;
