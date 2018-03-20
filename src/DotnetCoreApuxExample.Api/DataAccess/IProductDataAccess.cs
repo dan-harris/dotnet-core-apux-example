@@ -17,5 +17,12 @@ namespace DotnetCoreApuxExample.Api.DataAccess
         /// <param name="productId"></param>
         /// <returns></returns>
         Product GetProductById(int productId);
+
+        /// <summary>
+        /// Update a Product
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        Product Update(Product product);
     }
 }

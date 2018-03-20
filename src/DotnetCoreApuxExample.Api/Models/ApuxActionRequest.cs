@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.Models
 {
-    public class ApuxActionRequest : IApuxAction
+    public class ApuxActionRequest : IApuxAction<JToken>
     {
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }

@@ -33,5 +33,12 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             return new ApuxActionResult<Product>(product);
         }
 
+        public ApuxActionResult<Product> Update(UpdateAction action)
+        {
+            var product = _productDataAccess.Update(action.Payload);
+
+            return new ApuxActionResult<Product>(product);
+        }
+
     }
 }

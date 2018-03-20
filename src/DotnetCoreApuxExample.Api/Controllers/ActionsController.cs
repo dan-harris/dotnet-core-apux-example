@@ -11,13 +11,11 @@ namespace DotnetCoreApuxExample.Api.Controllers
     public class ActionsController : Controller
     {
 
-        private readonly Func<string, IApuxActionDispatcher> _actions;
-        private readonly IApuxActionDispatcher _allActions;
+        private readonly IApuxActionRootDispatcher _rootActionDispatcher;
 
-        public ActionsController(Func<string, IApuxActionDispatcher> actions)
+        public ActionsController(IApuxActionRootDispatcher rootActionDispatcher)
         {
-            _actions = actions;
-            _allActions = _actions(Constants.ActionNamespace.ALL);
+            _rootActionDispatcher = rootActionDispatcher;
         }
 
         // POST endpoint for all actions
@@ -30,7 +28,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
                 throw new ArgumentNullException(nameof(actionRequest));
             }
 
-            return _allActions.Dispatch(new ApuxAction<JToken>(actionRequest.Type, actionRequest.Payload));
+            return _rootActionDispatcher.Dispatch(new ApuxAction<Object>(actionRequest.Type, actionRequest.Payload));
         }
 
     }

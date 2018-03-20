@@ -6,7 +6,7 @@ namespace DotnetCoreApuxExample.Api.DataAccess
 {
     public class ProductDataAccess : IProductDataAccess
     {
-        private readonly List<Product> _productList;
+        private List<Product> _productList;
 
         public ProductDataAccess()
         {
@@ -22,5 +22,12 @@ namespace DotnetCoreApuxExample.Api.DataAccess
         public List<Product> GetAllProducts() => _productList;
 
         public Product GetProductById(int productId) => _productList.FirstOrDefault((Product product) => product.Id == productId);
+
+        public Product Update(Product product)
+        {
+            _productList = new List<Product>(_productList.Where((Product currentProduct) => currentProduct.Id != product.Id).Append(product));
+            return product;
+        }
+
     }
 }

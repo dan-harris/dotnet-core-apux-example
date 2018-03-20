@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
-    public class RootActionDispatcher : IApuxActionDispatcher
+    public class RootActionDispatcher : IApuxActionRootDispatcher
     {
 
 
@@ -21,38 +21,40 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             _productActions = _actions(Constants.ActionNamespace.PRODUCT);
         }
 
-        public IApuxActionResult Dispatch(ApuxAction<JToken> actionRequest)
+        public IApuxActionResult Dispatch(IApuxAction<Object> actionRequest)
         {
 
             // Get action namespace
             var actionNamespace = actionRequest.Type.Split(Constants.ACTION_NAMESPACE_SEPERATOR)[0];
             // Remove action namespace from action in request (means actions dont have to worry about their own namespace)
-            actionRequest.Type = actionRequest.Type.Replace($"{actionNamespace}{Constants.ACTION_NAMESPACE_SEPERATOR}", "");
+            var localAction = actionRequest.Type.Replace($"{actionNamespace}{Constants.ACTION_NAMESPACE_SEPERATOR}", "");
+            // instantiate a new action for the request
+            var action = new ApuxAction<JToken>(localAction, JToken.FromObject(actionRequest.Payload));
 
             switch (actionNamespace)
             {
                 // App error actions
                 case Constants.ActionNamespace.APP:
                     {
-                        return _appErrorActions.Dispatch(actionRequest);
+                        return _appErrorActions.Dispatch(action);
                     }
 
                 // Cart actions
                 case Constants.ActionNamespace.CART:
                     {
-                        return _cartActionDispatcher.Dispatch(actionRequest);
+                        return _cartActionDispatcher.Dispatch(action);
                     }
 
                 // Product actions
                 case Constants.ActionNamespace.PRODUCT:
                     {
-                        return _productActions.Dispatch(actionRequest);
+                        return _productActions.Dispatch(action);
                     }
 
                 // Default Action (return App Error Unknown Action)
                 default:
                     {
-                        return _appErrorActions.Dispatch(actionRequest);
+                        return _appErrorActions.Dispatch(action);
                     }
             }
 

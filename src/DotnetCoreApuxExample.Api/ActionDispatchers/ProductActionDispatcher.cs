@@ -40,6 +40,11 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
                         return _productActionHandler.GetById(new GetByIdAction(actionRequest.Payload));
                     }
 
+                case ProductActions.UPDATE:
+                    {
+                        return _productActionHandler.Update(new UpdateAction(actionRequest.Payload));
+                    }
+
                 default:
                     {
                         return _appErrorActionHandler.UnknownActionHandler(new UnknownActionAction());

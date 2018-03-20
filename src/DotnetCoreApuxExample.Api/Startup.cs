@@ -32,7 +32,7 @@ namespace DotnetCoreApuxExample.Api
             services.AddSingleton<ICartDataAccess, CartDataAccess>();
             services.AddSingleton<IProductDataAccess, ProductDataAccess>();
             // Add Actions as a multi-service selector, using a factory function
-            services.AddScoped<RootActionDispatcher>();
+            services.AddScoped<IApuxActionRootDispatcher, RootActionDispatcher>();
             services.AddScoped<AppErrorActionsDispatcher>();
             services.AddScoped<CartActionDispatcher>();
             services.AddScoped<ProductActionDispatcher>();
@@ -42,8 +42,6 @@ namespace DotnetCoreApuxExample.Api
                 {
                     switch (key)
                     {
-                        case Constants.ActionNamespace.ALL:
-                            return factory.GetService<RootActionDispatcher>();
                         case Constants.ActionNamespace.APP:
                             return factory.GetService<AppErrorActionsDispatcher>();
                         case Constants.ActionNamespace.CART:

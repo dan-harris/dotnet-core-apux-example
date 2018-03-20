@@ -13,6 +13,8 @@ namespace DotnetCoreApuxExample.Api.Actions
     {
         public const string GET_ALL = "GET_ALL";
         public const string GET_BY_ID = "GET_BY_ID";
+        public const string UPDATE = "UPDATE";
+
     }
 
     public class GetAllAction : ApuxAction<object>
@@ -23,6 +25,11 @@ namespace DotnetCoreApuxExample.Api.Actions
     public class GetByIdAction : ApuxAction<int>
     {
         public GetByIdAction(JToken payload) : base(ProductActions.GET_BY_ID, payload) { }
+    }
+
+    public class UpdateAction : ApuxAction<Product>
+    {
+        public UpdateAction(JToken payload) : base(ProductActions.UPDATE, payload) { }
     }
 
 }
