@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 
-namespace DotnetCoreApuxExample.Api.Models
+namespace Apux
 {
-    public class AppError
+    public class ApuxError
     {
         public enum ErrorType
         {

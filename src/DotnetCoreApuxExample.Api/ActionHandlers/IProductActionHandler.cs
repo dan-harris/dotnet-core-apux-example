@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Apux;
+using DotnetCoreApuxExample.Api.Actions;
 using DotnetCoreApuxExample.Api.Models;
 using Newtonsoft.Json.Linq;
 
@@ -6,7 +8,8 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
 {
     public interface IProductActionHandler
     {
-        ApuxActionResult GetAll();
-        ApuxActionResult GetById(JToken data);
+        ApuxActionResult<List<Product>> GetAll(GetAllAction action);
+        IApuxActionResult GetById(GetByIdAction action);
+        ApuxActionResult<Product> Update(UpdateAction action);
     }
 }

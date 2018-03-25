@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Apux</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>dan-harris</Authors>
+    <Company>danharris.io</Company>
+    <PackageTags>aspnet;core;action;dispatch;redux;flux;</PackageTags>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+</Project>

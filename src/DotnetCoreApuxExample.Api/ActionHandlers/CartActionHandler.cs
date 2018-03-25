@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Apux;
+using DotnetCoreApuxExample.Api.Actions;
 using DotnetCoreApuxExample.Api.DataAccess;
 using DotnetCoreApuxExample.Api.Models;
 using Newtonsoft.Json;
@@ -17,50 +19,36 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             _cartDataAccess = cartDataAccess;
         }
 
-        public ApuxActionResult AddProductAction(JToken data)
+        public ApuxActionResult<bool> AddProductHandler(AddProductAction action)
         {
-            var productId = data.Value<int>();
 
-            _cartDataAccess.AddProduct(productId);
+            _cartDataAccess.AddProduct(action.Payload);
 
-            return new ApuxActionResult
-            {
-                Data = new JValue(true)
-            };
+            return new ApuxActionResult<bool>(true);
+
         }
 
-        public ApuxActionResult RemoveProductAction(JToken data)
+        public ApuxActionResult<bool> RemoveProductHandler(RemoveProductAction action)
         {
-            var productId = data.Value<int>();
+            var result = _cartDataAccess.RemoveProduct(action.Payload);
 
-            var result = _cartDataAccess.RemoveProduct(productId);
-
-            return new ApuxActionResult
-            {
-                Data = new JValue(result)
-            };
+            return new ApuxActionResult<bool>(result);
         }
 
-        public ApuxActionResult ListProductsAction()
+        public ApuxActionResult<List<Product>> ListProductsHandler(ListProductsAction action)
         {
 
             var productList = _cartDataAccess.ListProductsInCart();
 
-            return new ApuxActionResult
-            {
-                Data = JArray.FromObject(productList)
-            };
+            return new ApuxActionResult<List<Product>>(productList);
         }
 
-        public ApuxActionResult GetProductTotalPrice()
+        public ApuxActionResult<int> GetProductTotalPriceHandler(GetTotalPriceAction action)
         {
 
             var totalPrice = _cartDataAccess.GetProductTotalPrice();
 
-            return new ApuxActionResult
-            {
-                Data = new JValue(totalPrice)
-            };
+            return new ApuxActionResult<int>(totalPrice);
         }
 
     }
