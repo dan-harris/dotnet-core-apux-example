@@ -21,7 +21,7 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             _productActions = _actions(Constants.ActionNamespace.PRODUCT);
         }
 
-        public IApuxActionResult Dispatch(IApuxAction<Object> actionRequest)
+        public IApuxActionResult Dispatch(IApuxAction actionRequest)
         {
 
             // Get action namespace
@@ -29,7 +29,7 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             // Remove action namespace from action in request (means actions dont have to worry about their own namespace)
             var localAction = actionRequest.Type.Replace($"{actionNamespace}{Constants.ACTION_NAMESPACE_SEPERATOR}", "");
             // instantiate a new action for the request
-            var action = new ApuxAction<JToken>(localAction, JToken.FromObject(actionRequest.Payload));
+            var action = new ApuxAction<JToken>(localAction, JToken.FromObject(actionRequest.BasePayload));
 
             switch (actionNamespace)
             {

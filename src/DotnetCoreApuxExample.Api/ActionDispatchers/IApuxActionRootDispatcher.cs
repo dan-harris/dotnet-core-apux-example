@@ -7,7 +7,7 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
     public interface IApuxActionRootDispatcher
     {
-        IApuxActionResult Dispatch(IApuxAction<Object> actionRequest);
+        IApuxActionResult Dispatch(IApuxAction actionRequest);
 
     }
 }
