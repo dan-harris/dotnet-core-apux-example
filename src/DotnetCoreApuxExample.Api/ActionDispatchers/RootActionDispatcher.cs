@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Apux;
 using DotnetCoreApuxExample.Api.Models;
 using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
-    public partial class RootActionDispatcher : IApuxActionRootDispatcher
+    public class RootActionDispatcher : IApuxActionRootDispatcher
     {
 
 
@@ -37,11 +38,6 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
 
             return result;
         }
-
-    }
-
-    public partial class RootActionDispatcher : IApuxActionRootDispatcher
-    {
 
         public IApuxActionResult Dispatch(string actionNamespace, ApuxAction<JToken> action)
         {
@@ -76,7 +72,5 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             return result;
 
         }
-
     }
-
 }

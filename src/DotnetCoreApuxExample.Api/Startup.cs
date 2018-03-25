@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Apux;
 using DotnetCoreApuxExample.Api.ActionDispatchers;
 using DotnetCoreApuxExample.Api.ActionHandlers;
 using DotnetCoreApuxExample.Api.Actions;
@@ -32,11 +33,11 @@ namespace DotnetCoreApuxExample.Api
             services.AddSingleton<ICartDataAccess, CartDataAccess>();
             services.AddSingleton<IProductDataAccess, ProductDataAccess>();
             // Add Actions as a multi-service selector, using a factory function
-            services.AddSingleton<IApuxActionRootDispatcher, RootActionDispatcher>();
-            services.AddSingleton<AppErrorActionsDispatcher>();
-            services.AddSingleton<CartActionDispatcher>();
-            services.AddSingleton<ProductActionDispatcher>();
-            services.AddSingleton(factory =>
+            services.AddScoped<IApuxActionRootDispatcher, RootActionDispatcher>();
+            services.AddScoped<AppErrorActionsDispatcher>();
+            services.AddScoped<CartActionDispatcher>();
+            services.AddScoped<ProductActionDispatcher>();
+            services.AddScoped(factory =>
             {
                 Func<string, IApuxActionDispatcher> accessor = key =>
                 {
@@ -55,9 +56,9 @@ namespace DotnetCoreApuxExample.Api
                 return accessor;
             });
             // Add Action handlers
-            services.AddSingleton<IAppErrorActionHandler, AppErrorActionHandler>();
-            services.AddSingleton<ICartActionHandler, CartActionHandler>();
-            services.AddSingleton<IProductActionHandler, ProductActionHandler>();
+            services.AddScoped<IAppErrorActionHandler, AppErrorActionHandler>();
+            services.AddScoped<ICartActionHandler, CartActionHandler>();
+            services.AddScoped<IProductActionHandler, ProductActionHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
