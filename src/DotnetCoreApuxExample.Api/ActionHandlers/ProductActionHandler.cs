@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Apux;
+using DotnetCoreApuxExample.Api.Actions;
 using DotnetCoreApuxExample.Api.DataAccess;
 using DotnetCoreApuxExample.Api.Models;
 using Newtonsoft.Json;
@@ -17,26 +19,27 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             _productDataAccess = productDataAccess;
         }
 
-        public ApuxActionResult GetAll()
+        public ApuxActionResult<List<Product>> GetAll(GetAllAction action)
         {
             var productList = _productDataAccess.GetAllProducts();
 
-            return new ApuxActionResult
-            {
-                Data = JArray.FromObject(productList)
-            };
+            return new ApuxActionResult<List<Product>>(productList);
         }
 
-        public ApuxActionResult GetById(JToken data)
+        public IApuxActionResult GetById(GetByIdAction action)
         {
-            var productId = data.Value<int>();
 
-            var product = _productDataAccess.GetProductById(productId);
+            var product = _productDataAccess.GetProductById(action.Payload);
 
-            return new ApuxActionResult
-            {
-                Data = JObject.FromObject(product)
-            };
+            if (product == null) return new ApuxActionResult<JToken>(new InternalErrorAction());
+            else return new ApuxActionResult<Product>(product);
+        }
+
+        public ApuxActionResult<Product> Update(UpdateAction action)
+        {
+            var product = _productDataAccess.Update(action.Payload);
+
+            return new ApuxActionResult<Product>(product);
         }
 
     }
