@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
-    public class RootActionDispatcher : IApuxActionRootDispatcher
+    public partial class RootActionDispatcher : IApuxActionRootDispatcher
     {
 
 
@@ -21,44 +21,62 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             _productActions = _actions(Constants.ActionNamespace.PRODUCT);
         }
 
-        public IApuxActionResult Dispatch(IApuxAction actionRequest)
+        public IApuxActionResult RootDispatch(IApuxAction actionRequest)
         {
 
             // Get action namespace
             var actionNamespace = actionRequest.Type.Split(Constants.ACTION_NAMESPACE_SEPERATOR)[0];
-            // Remove action namespace from action in request (means actions dont have to worry about their own namespace)
-            var localAction = actionRequest.Type.Replace($"{actionNamespace}{Constants.ACTION_NAMESPACE_SEPERATOR}", "");
             // instantiate a new action for the request
-            var action = new ApuxAction<JToken>(localAction, JToken.FromObject(actionRequest.BasePayload));
+            var action = new ApuxAction<JToken>(actionRequest.Type, JToken.FromObject(actionRequest.BasePayload));
+
+            // dispatch to child dispatchers using namespace
+            IApuxActionResult result = Dispatch(actionNamespace, action);
+
+            // recursively dispatch any returned actions (allows chaining of dispatch actions)
+            if (result.Dispatch) result = RootDispatch(result);
+
+            return result;
+        }
+
+    }
+
+    public partial class RootActionDispatcher : IApuxActionRootDispatcher
+    {
+
+        public IApuxActionResult Dispatch(string actionNamespace, ApuxAction<JToken> action)
+        {
+
+            // set app error as default action dispatch
+            IApuxActionResult result = _appErrorActions.Dispatch(action);
 
             switch (actionNamespace)
             {
                 // App error actions
                 case Constants.ActionNamespace.APP:
                     {
-                        return _appErrorActions.Dispatch(action);
+                        result = _appErrorActions.Dispatch(action);
                     }
+                    break;
 
                 // Cart actions
                 case Constants.ActionNamespace.CART:
                     {
-                        return _cartActionDispatcher.Dispatch(action);
+                        result = _cartActionDispatcher.Dispatch(action);
                     }
+                    break;
 
                 // Product actions
                 case Constants.ActionNamespace.PRODUCT:
                     {
-                        return _productActions.Dispatch(action);
+                        result = _productActions.Dispatch(action);
                     }
-
-                // Default Action (return App Error Unknown Action)
-                default:
-                    {
-                        return _appErrorActions.Dispatch(action);
-                    }
+                    break;
             }
+
+            return result;
 
         }
 
     }
+
 }

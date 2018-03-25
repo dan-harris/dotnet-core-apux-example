@@ -28,7 +28,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
                 throw new ArgumentNullException(nameof(actionRequest));
             }
 
-            return _rootActionDispatcher.Dispatch(new ApuxAction<JToken>(actionRequest.Type, actionRequest.Payload));
+            return _rootActionDispatcher.RootDispatch(new ApuxAction<JToken>(actionRequest.Type, actionRequest.Payload));
         }
 
     }

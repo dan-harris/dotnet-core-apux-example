@@ -15,6 +15,9 @@ namespace DotnetCoreApuxExample.Api.Models
         public JToken Payload { get; set; }
 
         [JsonIgnore]
+        public bool Dispatch { get; set; }
+
+        [JsonIgnore]
         public JToken BasePayload { get; set; }
 
         [JsonProperty(PropertyName = "errors")]
@@ -23,6 +26,7 @@ namespace DotnetCoreApuxExample.Api.Models
         public ApuxActionResult(T payload)
         {
             Type = "";
+            Dispatch = false;
             Payload = serializePayload(payload);
             BasePayload = serializePayload(payload);
         }
@@ -30,6 +34,7 @@ namespace DotnetCoreApuxExample.Api.Models
         public ApuxActionResult(string type, T payload)
         {
             Type = type;
+            Dispatch = !string.IsNullOrEmpty(type);
             Payload = serializePayload(payload);
             BasePayload = serializePayload(payload);
         }
@@ -37,6 +42,7 @@ namespace DotnetCoreApuxExample.Api.Models
         public ApuxActionResult(IApuxAction action)
         {
             Type = action.Type;
+            Dispatch = !string.IsNullOrEmpty(action.Type);
             Payload = action.BasePayload;
             BasePayload = action.BasePayload;
         }
@@ -45,6 +51,7 @@ namespace DotnetCoreApuxExample.Api.Models
         public ApuxActionResult(List<AppError> errors)
         {
             Type = "";
+            Dispatch = false;
             Payload = new JObject();
             BasePayload = new JObject();
             Errors = errors;
@@ -53,6 +60,7 @@ namespace DotnetCoreApuxExample.Api.Models
         public ApuxActionResult(T payload, List<AppError> errors)
         {
             Type = "";
+            Dispatch = false;
             Payload = serializePayload(payload);
             BasePayload = serializePayload(payload);
             Errors = errors;

@@ -25,6 +25,11 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
 
             switch (actionRequest.Type)
             {
+                case AppErrorActions.INTERNAL_ERROR:
+                    {
+                        return _appErrorActionHandler.InternalErrorActionHandler(new InternalErrorAction());
+                    }
+
                 case AppErrorActions.UNKNOWN_ACTION:
                 default:
                     {

@@ -25,12 +25,13 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             return new ApuxActionResult<List<Product>>(productList);
         }
 
-        public ApuxActionResult<Product> GetById(GetByIdAction action)
+        public IApuxActionResult GetById(GetByIdAction action)
         {
 
             var product = _productDataAccess.GetProductById(action.Payload);
 
-            return new ApuxActionResult<Product>(product);
+            if (product == null) return new ApuxActionResult<JToken>(new InternalErrorAction());
+            else return new ApuxActionResult<Product>(product);
         }
 
         public ApuxActionResult<Product> Update(UpdateAction action)

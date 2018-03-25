@@ -8,7 +8,7 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
     public interface IProductActionHandler
     {
         ApuxActionResult<List<Product>> GetAll(GetAllAction action);
-        ApuxActionResult<Product> GetById(GetByIdAction action);
+        IApuxActionResult GetById(GetByIdAction action);
         ApuxActionResult<Product> Update(UpdateAction action);
     }
 }

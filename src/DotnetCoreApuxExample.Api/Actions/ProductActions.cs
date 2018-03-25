@@ -11,9 +11,9 @@ namespace DotnetCoreApuxExample.Api.Actions
     /// </summary>
     public class ProductActions
     {
-        public const string GET_ALL = "GET_ALL";
-        public const string GET_BY_ID = "GET_BY_ID";
-        public const string UPDATE = "UPDATE";
+        public const string GET_ALL = "PRODUCT_GET_ALL";
+        public const string GET_BY_ID = "PRODUCT_GET_BY_ID";
+        public const string UPDATE = "PRODUCT_UPDATE";
 
     }
 

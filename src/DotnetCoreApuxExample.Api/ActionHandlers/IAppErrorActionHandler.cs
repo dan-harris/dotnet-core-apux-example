@@ -10,6 +10,7 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
     {
 
         ApuxActionResult<JToken> UnknownActionHandler(UnknownActionAction action);
+        ApuxActionResult<JToken> InternalErrorActionHandler(InternalErrorAction action);
 
     }
 }

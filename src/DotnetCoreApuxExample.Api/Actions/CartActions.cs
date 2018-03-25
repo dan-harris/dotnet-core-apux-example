@@ -12,10 +12,10 @@ namespace DotnetCoreApuxExample.Api.Actions
     public class CartActions
     {
 
-        public const string LIST_PRODUCTS = "LIST_PRODUCTS";
-        public const string ADD_PRODUCT = "ADD_PRODUCT";
-        public const string REMOVE_PRODUCT = "REMOVE_PRODUCT";
-        public const string GET_TOTAL_PRICE = "GET_TOTAL_PRICE";
+        public const string LIST_PRODUCTS = "CART_LIST_PRODUCTS";
+        public const string ADD_PRODUCT = "CART_ADD_PRODUCT";
+        public const string REMOVE_PRODUCT = "CART_REMOVE_PRODUCT";
+        public const string GET_TOTAL_PRICE = "CART_GET_TOTAL_PRICE";
 
     }
 
