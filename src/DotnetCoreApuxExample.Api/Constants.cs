@@ -2,7 +2,6 @@ namespace DotnetCoreApuxExample.Api
 {
     public class Constants
     {
-
         /// <summary>
         /// Namespace prefix for actions
         /// (also used to determine which action set to use in DI)
@@ -20,6 +19,5 @@ namespace DotnetCoreApuxExample.Api
         /// Required to split the namespace of the action from the rest of the action
         /// </summary>
         public const string ACTION_NAMESPACE_SEPERATOR = "_";
-
     }
 }

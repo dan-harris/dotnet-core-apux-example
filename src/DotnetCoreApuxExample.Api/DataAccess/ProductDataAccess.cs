@@ -1,6 +1,6 @@
+using DotnetCoreApuxExample.Api.Models;
 using System.Collections.Generic;
 using System.Linq;
-using DotnetCoreApuxExample.Api.Models;
 
 namespace DotnetCoreApuxExample.Api.DataAccess
 {
@@ -28,6 +28,5 @@ namespace DotnetCoreApuxExample.Api.DataAccess
             _productList = new List<Product>(_productList.Where((Product currentProduct) => currentProduct.Id != product.Id).Append(product));
             return product;
         }
-
     }
 }

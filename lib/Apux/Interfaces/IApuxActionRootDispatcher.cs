@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Apux
@@ -15,7 +14,7 @@ namespace Apux
         /// </summary>
         /// <param name="actionRequest">The dispatch request action</param>
         /// <returns></returns>
-        IApuxActionResult RootDispatch(IApuxAction actionRequest);
+        ApuxActionResultBase RootDispatch(ApuxActionBase actionRequest);
 
         /// <summary>
         /// Dispatches an action from root dispatch to child namespace dispatchers
@@ -23,7 +22,7 @@ namespace Apux
         /// <param name="actionNamespace">The namespace of the action</param>
         /// <param name="action">The dispatch request action, with payload parsed to JSON</param>
         /// <returns></returns>
-        IApuxActionResult Dispatch(string actionNamespace, ApuxAction<JToken> action);
+        ApuxActionResultBase Dispatch(string actionNamespace, ApuxActionBase action);
 
     }
 }

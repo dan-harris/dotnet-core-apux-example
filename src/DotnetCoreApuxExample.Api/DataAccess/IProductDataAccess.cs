@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using DotnetCoreApuxExample.Api.Models;
+using System.Collections.Generic;
 
 namespace DotnetCoreApuxExample.Api.DataAccess
 {

@@ -1,17 +1,13 @@
-using System.Collections.Generic;
 using Apux;
 using DotnetCoreApuxExample.Api.Actions;
 using DotnetCoreApuxExample.Api.DataAccess;
 using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace DotnetCoreApuxExample.Api.ActionHandlers
 {
-
     public class ProductActionHandler : IProductActionHandler
     {
-
         private readonly IProductDataAccess _productDataAccess;
 
         public ProductActionHandler(IProductDataAccess productDataAccess)
@@ -26,12 +22,12 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
             return new ApuxActionResult<List<Product>>(productList);
         }
 
-        public IApuxActionResult GetById(GetByIdAction action)
+        public ApuxActionResultBase GetById(GetByIdAction action)
         {
 
             var product = _productDataAccess.GetProductById(action.Payload);
 
-            if (product == null) return new ApuxActionResult<JToken>(new InternalErrorAction());
+            if (product == null) return new ApuxActionResultBase(new ApuxError(ApuxError.ErrorType.ERROR, "Could not find a product with the specified id."));
             else return new ApuxActionResult<Product>(product);
         }
 
@@ -41,6 +37,5 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
 
             return new ApuxActionResult<Product>(product);
         }
-
     }
 }

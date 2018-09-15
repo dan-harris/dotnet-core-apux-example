@@ -1,19 +1,13 @@
-using System;
-using System.Collections.Generic;
 using Apux;
-using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json.Linq;
+using System;
 
 namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
     public class RootActionDispatcher : IApuxActionRootDispatcher
     {
-
-
         private readonly IApuxActionDispatcher _appErrorActions;
         private readonly IApuxActionDispatcher _cartActionDispatcher;
         private readonly IApuxActionDispatcher _productActions;
-
 
         public RootActionDispatcher(Func<string, IApuxActionDispatcher> _actions)
         {
@@ -22,16 +16,13 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             _productActions = _actions(Constants.ActionNamespace.PRODUCT);
         }
 
-        public IApuxActionResult RootDispatch(IApuxAction actionRequest)
+        public ApuxActionResultBase RootDispatch(ApuxActionBase actionRequest)
         {
-
             // Get action namespace
             var actionNamespace = actionRequest.Type.Split(Constants.ACTION_NAMESPACE_SEPERATOR)[0];
-            // instantiate a new action for the request
-            var action = new ApuxAction<JToken>(actionRequest.Type, JToken.FromObject(actionRequest.BasePayload));
 
             // dispatch to child dispatchers using namespace
-            IApuxActionResult result = Dispatch(actionNamespace, action);
+            ApuxActionResultBase result = Dispatch(actionNamespace, actionRequest);
 
             // recursively dispatch any returned actions (allows chaining of dispatch actions)
             if (result.Dispatch) result = RootDispatch(result);
@@ -39,38 +30,30 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             return result;
         }
 
-        public IApuxActionResult Dispatch(string actionNamespace, ApuxAction<JToken> action)
+        public ApuxActionResultBase Dispatch(string actionNamespace, ApuxActionBase action)
         {
 
             // set app error as default action dispatch
-            IApuxActionResult result = _appErrorActions.Dispatch(action);
+            ApuxActionResultBase result = _appErrorActions.Dispatch(action);
 
             switch (actionNamespace)
             {
                 // App error actions
                 case Constants.ActionNamespace.APP:
-                    {
-                        result = _appErrorActions.Dispatch(action);
-                    }
+                    result = _appErrorActions.Dispatch(action);
                     break;
-
                 // Cart actions
                 case Constants.ActionNamespace.CART:
-                    {
-                        result = _cartActionDispatcher.Dispatch(action);
-                    }
+                    result = _cartActionDispatcher.Dispatch(action);
                     break;
 
                 // Product actions
                 case Constants.ActionNamespace.PRODUCT:
-                    {
-                        result = _productActions.Dispatch(action);
-                    }
+                    result = _productActions.Dispatch(action);
                     break;
             }
 
             return result;
-
         }
     }
 }

@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using Apux;
 using DotnetCoreApuxExample.Api.ActionHandlers;
 using DotnetCoreApuxExample.Api.Actions;
-using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
@@ -13,7 +10,6 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
     /// </summary>
     public class ProductActionDispatcher : IApuxActionDispatcher
     {
-
         private readonly IAppErrorActionHandler _appErrorActionHandler;
         private readonly IProductActionHandler _productActionHandler;
 
@@ -26,33 +22,19 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
             _productActionHandler = productActionHandler;
         }
 
-        public IApuxActionResult Dispatch(ApuxAction<JToken> actionRequest)
+        public ApuxActionResultBase Dispatch(ApuxActionBase actionRequest)
         {
-
             switch (actionRequest.Type)
             {
                 case ProductActions.GET_ALL:
-                    {
-                        return _productActionHandler.GetAll(new GetAllAction(actionRequest.Payload));
-                    }
-
+                    return _productActionHandler.GetAll(new GetAllAction());
                 case ProductActions.GET_BY_ID:
-                    {
-                        return _productActionHandler.GetById(new GetByIdAction(actionRequest.Payload));
-                    }
-
+                    return _productActionHandler.GetById(new GetByIdAction(actionRequest));
                 case ProductActions.UPDATE:
-                    {
-                        return _productActionHandler.Update(new UpdateAction(actionRequest.Payload));
-                    }
-
+                    return _productActionHandler.Update(new UpdateAction(actionRequest));
                 default:
-                    {
-                        return _appErrorActionHandler.UnknownActionHandler(new UnknownActionAction());
-                    }
+                    return _appErrorActionHandler.UnknownActionHandler(new UnknownActionAction());
             }
-
         }
-
     }
 }

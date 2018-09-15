@@ -1,17 +1,12 @@
-using System;
-using Microsoft.AspNetCore.Mvc;
-using DotnetCoreApuxExample.Api.Models;
-using DotnetCoreApuxExample.Api.Actions;
-using Newtonsoft.Json.Linq;
-using DotnetCoreApuxExample.Api.ActionDispatchers;
 using Apux;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace DotnetCoreApuxExample.Api.Controllers
 {
     [Route("api")]
     public class ActionsController : Controller
     {
-
         private readonly IApuxActionRootDispatcher _rootActionDispatcher;
 
         public ActionsController(IApuxActionRootDispatcher rootActionDispatcher)
@@ -21,7 +16,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
 
         // POST endpoint for all actions
         [HttpPost("v1")]
-        public IApuxActionResult ExecuteAction([FromBody] ApuxActionRequest actionRequest)
+        public ApuxActionBase ExecuteAction([FromBody] ApuxActionBase actionRequest)
         {
 
             if (actionRequest == null)
@@ -29,8 +24,7 @@ namespace DotnetCoreApuxExample.Api.Controllers
                 throw new ArgumentNullException(nameof(actionRequest));
             }
 
-            return _rootActionDispatcher.RootDispatch(new ApuxAction<JToken>(actionRequest.Type, actionRequest.Payload));
+            return _rootActionDispatcher.RootDispatch(actionRequest);
         }
-
     }
 }

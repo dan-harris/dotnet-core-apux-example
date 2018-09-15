@@ -1,9 +1,6 @@
-using System.Collections.Generic;
 using Apux;
 using DotnetCoreApuxExample.Api.ActionHandlers;
 using DotnetCoreApuxExample.Api.Actions;
-using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.ActionDispatchers
 {
@@ -13,54 +10,30 @@ namespace DotnetCoreApuxExample.Api.ActionDispatchers
     /// </summary>
     public class CartActionDispatcher : IApuxActionDispatcher
     {
-
         private readonly IAppErrorActionHandler _appErrorActionHandler;
         private readonly ICartActionHandler _cartActionHandler;
 
-        public CartActionDispatcher(
-            IAppErrorActionHandler appErrorActionHandler,
-            ICartActionHandler cartActionHandler
-        )
+        public CartActionDispatcher(IAppErrorActionHandler appErrorActionHandler, ICartActionHandler cartActionHandler)
         {
             _appErrorActionHandler = appErrorActionHandler;
             _cartActionHandler = cartActionHandler;
         }
 
-        public IApuxActionResult Dispatch(ApuxAction<JToken> actionRequest)
+        public ApuxActionResultBase Dispatch(ApuxActionBase actionRequest)
         {
-
-
             switch (actionRequest.Type)
             {
                 case CartActions.LIST_PRODUCTS:
-                    {
-                        return _cartActionHandler.ListProductsHandler(new ListProductsAction());
-                    }
-
+                    return _cartActionHandler.ListProductsHandler(new ListProductsAction());
                 case CartActions.ADD_PRODUCT:
-                    {
-                        return _cartActionHandler.AddProductHandler(new AddProductAction(actionRequest.Payload));
-                    }
-
+                    return _cartActionHandler.AddProductHandler(new AddProductAction(actionRequest));
                 case CartActions.REMOVE_PRODUCT:
-                    {
-                        return _cartActionHandler.RemoveProductHandler(new RemoveProductAction(actionRequest.Payload));
-                    }
-
+                    return _cartActionHandler.RemoveProductHandler(new RemoveProductAction(actionRequest));
                 case CartActions.GET_TOTAL_PRICE:
-                    {
-                        return _cartActionHandler.GetProductTotalPriceHandler(new GetTotalPriceAction());
-                    }
-
+                    return _cartActionHandler.GetProductTotalPriceHandler(new GetTotalPriceAction());
                 default:
-                    {
-                        return _appErrorActionHandler.UnknownActionHandler(new UnknownActionAction());
-                    }
+                    return _appErrorActionHandler.UnknownActionHandler(new UnknownActionAction());
             }
-
-
-
         }
-
     }
 }
