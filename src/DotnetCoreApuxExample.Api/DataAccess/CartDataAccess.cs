@@ -1,6 +1,6 @@
+using DotnetCoreApuxExample.Api.Models;
 using System.Collections.Generic;
 using System.Linq;
-using DotnetCoreApuxExample.Api.Models;
 
 namespace DotnetCoreApuxExample.Api.DataAccess
 {
@@ -22,6 +22,5 @@ namespace DotnetCoreApuxExample.Api.DataAccess
         public List<Product> ListProductsInCart() => _productList;
 
         public int GetProductTotalPrice() => _productList.Aggregate(0, (int acc, Product product) => acc + product.Price);
-
     }
 }

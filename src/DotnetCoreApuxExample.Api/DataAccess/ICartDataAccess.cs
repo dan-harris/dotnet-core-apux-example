@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-using System.Linq;
 using DotnetCoreApuxExample.Api.Models;
+using System.Collections.Generic;
 
 namespace DotnetCoreApuxExample.Api.DataAccess
 {
     public interface ICartDataAccess
     {
-
         /// <summary>
         /// Add a Product to the Cart
         /// </summary>
@@ -31,6 +29,5 @@ namespace DotnetCoreApuxExample.Api.DataAccess
         /// </summary>
         /// <returns></returns>
         int GetProductTotalPrice();
-
     }
 }

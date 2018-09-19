@@ -1,12 +1,10 @@
-using System.Collections.Generic;
 using Apux;
 using DotnetCoreApuxExample.Api.Actions;
 using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace DotnetCoreApuxExample.Api.ActionHandlers
 {
-
     public interface ICartActionHandler
     {
         ApuxActionResult<bool> AddProductHandler(AddProductAction action);

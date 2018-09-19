@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using Apux;
-using DotnetCoreApuxExample.Api.ActionHandlers;
 using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json.Linq;
 
 namespace DotnetCoreApuxExample.Api.Actions
 {
@@ -15,22 +12,23 @@ namespace DotnetCoreApuxExample.Api.Actions
         public const string GET_ALL = "PRODUCT_GET_ALL";
         public const string GET_BY_ID = "PRODUCT_GET_BY_ID";
         public const string UPDATE = "PRODUCT_UPDATE";
-
     }
 
-    public class GetAllAction : ApuxAction<object>
+    public class GetAllAction : ApuxActionBase
     {
-        public GetAllAction(JToken payload) : base(ProductActions.GET_ALL, payload) { }
+        public GetAllAction() : base(ProductActions.GET_ALL) { }
     }
 
     public class GetByIdAction : ApuxAction<int>
     {
-        public GetByIdAction(JToken payload) : base(ProductActions.GET_BY_ID, payload) { }
+        public GetByIdAction(ApuxActionBase baseAction) : base(ProductActions.GET_BY_ID, baseAction) { }
+        public GetByIdAction(int value) : base(ProductActions.GET_BY_ID, value) { }
     }
 
     public class UpdateAction : ApuxAction<Product>
     {
-        public UpdateAction(JToken payload) : base(ProductActions.UPDATE, payload) { }
+        public UpdateAction(ApuxActionBase basePayload) : base(ProductActions.UPDATE, basePayload) { }
+        public UpdateAction(Product product) : base(ProductActions.UPDATE, product) { }
     }
 
 }

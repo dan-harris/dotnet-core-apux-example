@@ -4,7 +4,6 @@ namespace DotnetCoreApuxExample.Api.Models
 {
     public class Product
     {
-
         [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 

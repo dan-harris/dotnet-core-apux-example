@@ -1,17 +1,13 @@
-using System.Collections.Generic;
 using Apux;
 using DotnetCoreApuxExample.Api.Actions;
 using DotnetCoreApuxExample.Api.DataAccess;
 using DotnetCoreApuxExample.Api.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace DotnetCoreApuxExample.Api.ActionHandlers
 {
-
     public class CartActionHandler : ICartActionHandler
     {
-
         private readonly ICartDataAccess _cartDataAccess;
 
         public CartActionHandler(ICartDataAccess cartDataAccess)
@@ -50,6 +46,5 @@ namespace DotnetCoreApuxExample.Api.ActionHandlers
 
             return new ApuxActionResult<int>(totalPrice);
         }
-
     }
 }
